@@ -15,12 +15,6 @@ const sequelize = new Sequelize(
     }
 )
 
-//User.hasMany(Compra)
-//Compra.hasMany(Produto)
-//Loja.hasMany(Produto)
-//User.hasOne(Loja)
-//Compra.belongsToMany(Produto, { through: 'Carrinho' })
-
 const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize

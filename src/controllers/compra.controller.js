@@ -1,11 +1,11 @@
-const userService = require('../services/user.service')
+const compraService = require('../services/compra.service')
 
 exports.findAll = async (request, response) => {
     try {
-        const users = await userService.findAll()
+        const compra = await compraService.findAll()
         return response.status(200).json({
             status: 200,
-            data: users,
+            data: compra,
             message: 'Usuários listados com sucesso'
         })
     } catch (e) {
@@ -19,10 +19,10 @@ exports.findAll = async (request, response) => {
 exports.findById = async (request, response) => {
     try {
         const id = parseInt(request.params.id)
-        const user = await userService.findById(id)
+        const compra = await compraService.findById(id)
         response.status(200).json({
             status: 200,
-            data: user,
+            data: compra,
             message: 'Usuário selecionado com sucesso!'
         })
     } catch (e) {
@@ -35,12 +35,12 @@ exports.findById = async (request, response) => {
 
 exports.create = async (request, response) => {
     try {
-        const { username, email, password, cpf, tipo } = request.body
-        const user = await userService.create(username, email, password, cpf, tipo)
+        const { dataCompra } = request.body
+        const compra = await compraService.create(dataCompra)
         response.status(201).send({
-            message: "Usuário cadastrado com sucesso!",
+            message: "Compra cadastrada com sucesso!",
             body: {
-                user: user
+                compra: compra
             }
         })
     } catch (e) {
@@ -54,15 +54,13 @@ exports.create = async (request, response) => {
 exports.update = async (request, response) => {
     try {
         const id = parseInt(request.params.id)
-        const { username, email, password, tipo } = request.body
+        const { dataCompra } = request.body
         
-        await userService.update(id, username, email, password, tipo)
+        await compraService.update(id, dataCompra)
         response.status(200).send({
             message: "Usuário alterado com sucesso!",
             body: {
-                username: username,
-                email: email,
-                tipo: tipo
+                dataCompra: dataCompra
             }
         })
     } catch (e) {
@@ -76,8 +74,8 @@ exports.update = async (request, response) => {
 exports.delete = async (request, response) => {
     try {
         const id = parseInt(request.params.id)
-        await userService.delete(id)
-        response.status(200).send({message: "Usuário deletado"})
+        await compraService.delete(id)
+        response.status(200).send({message: "Compra deletada"})
     } catch (e) {
         return response.status(400).json({
             status: 400,

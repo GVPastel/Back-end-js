@@ -1,12 +1,12 @@
-const userService = require('../services/user.service')
+const produtoService = require('../services/produto.service')
 
 exports.findAll = async (request, response) => {
     try {
-        const users = await userService.findAll()
+        const produtos = await produtoService.findAll()
         return response.status(200).json({
             status: 200,
-            data: users,
-            message: 'Usuários listados com sucesso'
+            data: produtos,
+            message: 'Produtos listados com sucesso'
         })
     } catch (e) {
         response.send(400).json({
@@ -19,11 +19,11 @@ exports.findAll = async (request, response) => {
 exports.findById = async (request, response) => {
     try {
         const id = parseInt(request.params.id)
-        const user = await userService.findById(id)
+        const produto = await produtoService.findById(id)
         response.status(200).json({
             status: 200,
-            data: user,
-            message: 'Usuário selecionado com sucesso!'
+            data: produto,
+            message: 'Produto selecionado com sucesso!'
         })
     } catch (e) {
         response.send(400).json({
@@ -35,12 +35,12 @@ exports.findById = async (request, response) => {
 
 exports.create = async (request, response) => {
     try {
-        const { username, email, password, cpf, tipo } = request.body
-        const user = await userService.create(username, email, password, cpf, tipo)
+        const { tipoProduto, tamanho } = request.body
+        const produto = await produtoService.create(tipoProduto, tamanho)
         response.status(201).send({
-            message: "Usuário cadastrado com sucesso!",
+            message: "Produto cadastrado com sucesso!",
             body: {
-                user: user
+                produto: produto
             }
         })
     } catch (e) {
@@ -54,15 +54,14 @@ exports.create = async (request, response) => {
 exports.update = async (request, response) => {
     try {
         const id = parseInt(request.params.id)
-        const { username, email, password, tipo } = request.body
+        const { tipoProduto, tamanho } = request.body
         
-        await userService.update(id, username, email, password, tipo)
+        await produtoService.update(id, tipoProduto, tamanho)
         response.status(200).send({
-            message: "Usuário alterado com sucesso!",
+            message: "Produto alterado com sucesso!",
             body: {
-                username: username,
-                email: email,
-                tipo: tipo
+                tipoProduto : tipoProduto,
+                tamanho : tamanho
             }
         })
     } catch (e) {
@@ -76,8 +75,8 @@ exports.update = async (request, response) => {
 exports.delete = async (request, response) => {
     try {
         const id = parseInt(request.params.id)
-        await userService.delete(id)
-        response.status(200).send({message: "Usuário deletado"})
+        await produtoService.delete(id)
+        response.status(200).send({message: "Produto deletado"})
     } catch (e) {
         return response.status(400).json({
             status: 400,

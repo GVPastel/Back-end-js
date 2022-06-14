@@ -1,11 +1,11 @@
-const userService = require('../services/user.service')
+const lojaService = require('../services/loja.service')
 
 exports.findAll = async (request, response) => {
     try {
-        const users = await userService.findAll()
+        const loja = await lojaService.findAll()
         return response.status(200).json({
             status: 200,
-            data: users,
+            data: loja,
             message: 'Usuários listados com sucesso'
         })
     } catch (e) {
@@ -19,11 +19,11 @@ exports.findAll = async (request, response) => {
 exports.findById = async (request, response) => {
     try {
         const id = parseInt(request.params.id)
-        const user = await userService.findById(id)
+        const loja = await lojaService.findById(id)
         response.status(200).json({
             status: 200,
-            data: user,
-            message: 'Usuário selecionado com sucesso!'
+            data: loja,
+            message: 'Loja selecionada com sucesso!'
         })
     } catch (e) {
         response.send(400).json({
@@ -35,12 +35,12 @@ exports.findById = async (request, response) => {
 
 exports.create = async (request, response) => {
     try {
-        const { username, email, password, cpf, tipo } = request.body
-        const user = await userService.create(username, email, password, cpf, tipo)
+        const { cnpj } = request.body
+        const loja = await lojaService.create(cnpj)
         response.status(201).send({
-            message: "Usuário cadastrado com sucesso!",
+            message: "Loja cadastrada com sucesso!",
             body: {
-                user: user
+                loja: loja
             }
         })
     } catch (e) {
@@ -54,15 +54,13 @@ exports.create = async (request, response) => {
 exports.update = async (request, response) => {
     try {
         const id = parseInt(request.params.id)
-        const { username, email, password, tipo } = request.body
+        const { cnpj } = request.body
         
-        await userService.update(id, username, email, password, tipo)
+        await lojaService.update(id, cnpj)
         response.status(200).send({
-            message: "Usuário alterado com sucesso!",
+            message: "Loja alterada com sucesso!",
             body: {
-                username: username,
-                email: email,
-                tipo: tipo
+                cnpj: cnpj
             }
         })
     } catch (e) {
@@ -76,8 +74,8 @@ exports.update = async (request, response) => {
 exports.delete = async (request, response) => {
     try {
         const id = parseInt(request.params.id)
-        await userService.delete(id)
-        response.status(200).send({message: "Usuário deletado"})
+        await lojaService.delete(id)
+        response.status(200).send({message: "Loja deletada"})
     } catch (e) {
         return response.status(400).json({
             status: 400,
